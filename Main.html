@@ -1,0 +1,84 @@
+<header>Blender Theme Editor</header>
+<title>Blender Theme</title>
+<style>
+    .myDiv{
+        line-height: 50px;
+    }
+</style>
+<body>
+    <input type="file" accept=".xml" id="FileSelector"></input>
+    <div class=myDiv id="ColDiv">
+
+    </div>
+</body>
+
+
+
+<script>
+
+    let Colors = [];
+    let ColDiv = document.getElementById("ColDiv");
+    const FileSelector = document.getElementById('FileSelector');
+    FileSelector.addEventListener('change',(event)=>{
+        const FileList = event.target.files;
+        console.log(FileList[0]);
+        ReadFile(FileList[0]);
+    });
+
+    function ReadFile(File)
+    {
+
+
+        var Reader = new FileReader();
+
+        Reader.addEventListener('progress',(event)=>{
+            if(event.loaded && event.total){
+                const Percent = (event.loaded/event.total)*100;
+                console.log(`Progress: ${Math.round(Percent)}`);
+            }
+        });
+
+        Reader.addEventListener('load',(event)=>{
+            const Result = event.target.result;
+            var Lines = Result.split('\n');
+            for(var Line = 0; Line < Lines.length;Line++)
+            {
+                if(Lines[Line].search("#")!=-1)
+                {
+                    let HashLoc = Lines[Line].search("#");
+                    let ExtractCol = Lines[Line].substr(HashLoc+1,6);
+                    if(!Colors.includes(ExtractCol))
+                    {
+                        Colors.push(ExtractCol);
+                        console.log(Colors[Colors.length-1]);
+                    }
+                    
+                }
+            }
+            DrawBands();
+        });
+
+        Reader.readAsText(File);
+
+        
+        
+    }
+
+    function DrawBands()
+    {
+        for (let i = 0; i < Colors.length; i++)
+            var Text = document.createElement("p");
+            Text.innerText = "#" + Color;
+            Text.style.textAlign = "center";
+            Text.style.color = "#eeeeee";
+            Text.style.fontSize = 24;
+            Text.style.fontFamily = "Helvetica";
+            Text.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
+            Text.style.background = "#" + Color;
+            ColDiv.appendChild(Text);
+        
+         }
+
+    }
+
+</script>
