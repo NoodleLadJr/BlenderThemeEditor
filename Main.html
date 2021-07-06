@@ -67,8 +67,15 @@
     function DrawBands()
     {
         for (let i = 0; i < Colors.length; i++)
-            var Text = document.createElement("p");
+        {
+            let Color = Colors[i];
+            var Text = document.createElement("Button");
             Text.innerText = "#" + Color;
+            Text.style.display = "block";
+            Text.style.borderRadius = "5px";
+            Text.style.border = "0px";
+            Text.style.padding = "20px";
+            Text.style.width = "100%";
             Text.style.textAlign = "center";
             Text.style.color = "#eeeeee";
             Text.style.fontSize = 24;
