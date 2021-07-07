@@ -22,6 +22,7 @@
     let BaseCol = [];
     var Reader = new FileReader();
     var Lines = [];
+    var ChunkyString = "";
     let ColDiv = document.getElementById("ColDiv");
     const FileSelector = document.getElementById('FileSelector');
    
@@ -125,11 +126,13 @@
                 Lines[i] = Line.replace(OldCol,NewCol);
                 
             }
-            console.log(Lines[i])
             //edited the lines
+            ChunkyString = ChunkyString + Line;
         }
         var NewTheme = document.createElement('a');
-        var MyBlob = new Blob([Lines],{ type: 'text/plain;charset=utf-8;' });
+        console.log(Lines);
+        var Strings = [ChunkyString]
+        var MyBlob = new Blob(Strings,{ type: 'text/plain;charset=utf-8;' });
         var url = URL.createObjectURL(MyBlob);
         NewTheme.setAttribute('href',url);
         NewTheme.setAttribute('download', "NewTheme.XML");
