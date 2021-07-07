@@ -7,10 +7,11 @@
 </style>
 <body>
     <input type="file" accept=".xml" id="FileSelector"></input>
-    <button  id="GenerateBtn" type="button" disabled onclick="Write()">Generate New Theme</button>
+    <button  id="GenerateBtn" type="button" disabled onclick="Write()">Generate New Theme and Download</button>
     <div class=myDiv id="ColDiv">
 
     </div>
+
 </body>
 
 
@@ -99,8 +100,8 @@
             Text.addEventListener("change", function() {
                 Text = this;
                 document.getElementById(Text.id + "Label").innerHTML = Text.value;
-                console.log(Text.value);
-                Colors[Text.id] = Text.value;
+                console.log(Text.value.substr(1,6));
+                Colors[Text.id] = Text.value.substr(1,6);
                 Text.style.background = Text.value;
             
             });
@@ -114,7 +115,29 @@
     function Write()
     {
 //iterate through Lines again, write what is in Lines, if substr # is found match the key from the original to the new color and write it.
+        for (let i = 0; i < Lines.length; i++) {
+            const Line = Lines[i];
+            if (Line.search("#")!= -1) 
+            {
+                HashtagPos = Line.search("#");
+                OldCol = Line.substr(HashtagPos+1,6);
+                NewCol = Colors[BaseCol.indexOf(OldCol)];
+                Lines[i] = Line.replace(OldCol,NewCol);
+                
+            }
+            console.log(Lines[i])
+            //edited the lines
+        }
+        var NewTheme = document.createElement('a');
+        var MyBlob = new Blob([Lines],{ type: 'text/plain;charset=utf-8;' });
+        var url = URL.createObjectURL(MyBlob);
+        NewTheme.setAttribute('href',url);
+        NewTheme.setAttribute('download', "NewTheme.XML");
+        NewTheme.click();
     }
+
+
+    
 
 
 
