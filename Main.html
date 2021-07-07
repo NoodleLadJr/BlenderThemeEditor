@@ -69,23 +69,43 @@
         for (let i = 0; i < Colors.length; i++)
         {
             let Color = Colors[i];
-            var Text = document.createElement("Button");
-            Text.innerText = "#" + Color;
+            var Text = document.createElement("Input");
+            var Label = document.createElement("Label")
+            Text.id=i;
+            Label.id=i + "Label";
+            Label.for = Text.id;
+            Text.type = "Color";
+            Label.innerHTML = "#" + Color;
+            Label.style.textAlign = "center";
+            Label.style.position = "absolute";
             Text.style.display = "block";
             Text.style.borderRadius = "5px";
             Text.style.border = "0px";
             Text.style.padding = "20px";
             Text.style.width = "100%";
             Text.style.textAlign = "center";
-            Text.style.color = "#eeeeee";
-            Text.style.fontSize = 24;
-            Text.style.fontFamily = "Helvetica";
-            Text.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
+            Label.style.color = "#eeeeee";
+            Label.style.fontSize = 24;
+            Label.style.fontFamily = "Helvetica";
+            Label.style.textShadow = "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000";
             Text.style.background = "#" + Color;
+            Text.value = "#" + Color; 
+            Text.addEventListener("change", function() {
+                Text = this;
+                document.getElementById(Text.id + "Label").innerHTML = Text.value;
+                console.log(Text.value);
+                Colors[Text.id] = Text.value;
+                Text.style.background = Text.value;
+            
+            });
+            ColDiv.appendChild(Label);
             ColDiv.appendChild(Text);
         
          }
 
     }
+
+
+
 
 </script>
